@@ -1,0 +1,1915 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Les dispositifs portés par les établissements signataires de la convention de coordination territoriale Nouvelle-Aquitaine dans les collèges et les lycées, favorisant la diversité sociale et territoriale des étudiants dans l'accès à l'enseignement supérieur</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Limitesadministrativesdpartementales_1.js"></script>
+        <script src="data/QPV2024_2.js"></script>
+        <script src="data/QPV2024Bande300m_3.js"></script>
+        <script src="data/Indicateurscroisdloignementgographiqueetdepositionsociale_4.js"></script>
+        <script src="data/SiegeBSA_5.js"></script>
+        <script src="data/SiegeUBM_6.js"></script>
+        <script src="data/CampusUB_7.js"></script>
+        <script src="data/SiegeUB_8.js"></script>
+        <script src="data/CampusUPPA_9.js"></script>
+        <script src="data/SiegeUPPA_10.js"></script>
+        <script src="data/SiegeSciencesPoBdx_11.js"></script>
+        <script src="data/CampusUniLim_12.js"></script>
+        <script src="data/SiegeUniLim_13.js"></script>
+        <script src="data/SiegeLRU_14.js"></script>
+        <script src="data/SiegeINP_15.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:7
+        }).fitBounds([[42.61092518366249,-5.616808136423449],[47.88621522896207,5.809262571819367]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        document.querySelector(".leaflet-popup-pane").addEventListener("load", function(event) {
+          var tagName = event.target.tagName,
+            popup = map._popup;
+          // Also check if flag is already set.
+          if (tagName === "IMG" && popup && !popup._updated) {
+            popup._updated = true; // Set flag to prevent looping.
+            popup.update();
+          }
+        }, true);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_Fonddecarte_0');
+        map.getPane('pane_Fonddecarte_0').style.zIndex = 400;
+        var layer_Fonddecarte_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_Fonddecarte_0',
+            opacity: 0.8,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 7,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_Fonddecarte_0;
+        map.addLayer(layer_Fonddecarte_0);
+        function pop_Limitesadministrativesdpartementales_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID_GEOFLA'] !== null ? autolinker.link(feature.properties['ID_GEOFLA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CODE_DEPT'] !== null ? autolinker.link(feature.properties['CODE_DEPT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOM_DEPT'] !== null ? autolinker.link(feature.properties['NOM_DEPT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CODE_CHF'] !== null ? autolinker.link(feature.properties['CODE_CHF'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOM_CHF'] !== null ? autolinker.link(feature.properties['NOM_CHF'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X_CHF_LIEU'] !== null ? autolinker.link(feature.properties['X_CHF_LIEU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y_CHF_LIEU'] !== null ? autolinker.link(feature.properties['Y_CHF_LIEU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X_CENTROID'] !== null ? autolinker.link(feature.properties['X_CENTROID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y_CENTROID'] !== null ? autolinker.link(feature.properties['Y_CENTROID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CODE_REG'] !== null ? autolinker.link(feature.properties['CODE_REG'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOM_REG'] !== null ? autolinker.link(feature.properties['NOM_REG'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['B_Effectif'] !== null ? autolinker.link(feature.properties['B_Effectif'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['B_Tx_DEPBA'] !== null ? autolinker.link(feature.properties['B_Tx_DEPBA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['B_Tx_DEP_1'] !== null ? autolinker.link(feature.properties['B_Tx_DEP_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['R_EFFECIF_'] !== null ? autolinker.link(feature.properties['R_EFFECIF_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['R_Tx_DepRe'] !== null ? autolinker.link(feature.properties['R_Tx_DepRe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['R_Tx_Dep_1'] !== null ? autolinker.link(feature.properties['R_Tx_Dep_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['IPS_mean'] !== null ? autolinker.link(feature.properties['IPS_mean'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_Limitesadministrativesdpartementales_1_0() {
+            return {
+                pane: 'pane_Limitesadministrativesdpartementales_1',
+                opacity: 1,
+                color: 'rgba(82,82,82,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,204,204,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Limitesadministrativesdpartementales_1');
+        map.getPane('pane_Limitesadministrativesdpartementales_1').style.zIndex = 401;
+        map.getPane('pane_Limitesadministrativesdpartementales_1').style['mix-blend-mode'] = 'normal';
+        var layer_Limitesadministrativesdpartementales_1 = new L.geoJson(json_Limitesadministrativesdpartementales_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Limitesadministrativesdpartementales_1',
+            layerName: 'layer_Limitesadministrativesdpartementales_1',
+            pane: 'pane_Limitesadministrativesdpartementales_1',
+            onEachFeature: pop_Limitesadministrativesdpartementales_1,
+            style: style_Limitesadministrativesdpartementales_1_0,
+        });
+        bounds_group.addLayer(layer_Limitesadministrativesdpartementales_1);
+        map.addLayer(layer_Limitesadministrativesdpartementales_1);
+        function pop_QPV2024_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Code_QP'] !== null ? autolinker.link(feature.properties['Code_QP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lib_QP'] !== null ? autolinker.link(feature.properties['Lib_QP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Commune'] !== null ? autolinker.link(feature.properties['Commune'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_QPV2024_2_0() {
+            return {
+                pane: 'pane_QPV2024_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,182,54,1.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_QPV2024_2');
+        map.getPane('pane_QPV2024_2').style.zIndex = 402;
+        map.getPane('pane_QPV2024_2').style['mix-blend-mode'] = 'normal';
+        var layer_QPV2024_2 = new L.geoJson(json_QPV2024_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_QPV2024_2',
+            layerName: 'layer_QPV2024_2',
+            pane: 'pane_QPV2024_2',
+            onEachFeature: pop_QPV2024_2,
+            style: style_QPV2024_2_0,
+        });
+        bounds_group.addLayer(layer_QPV2024_2);
+        map.addLayer(layer_QPV2024_2);
+        function pop_QPV2024Bande300m_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Code_QP'] !== null ? autolinker.link(feature.properties['Code_QP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lib_QP'] !== null ? autolinker.link(feature.properties['Lib_QP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Commune'] !== null ? autolinker.link(feature.properties['Commune'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_QPV2024Bande300m_3_0() {
+            return {
+                pane: 'pane_QPV2024Bande300m_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,182,54,0.28627450980392155)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_QPV2024Bande300m_3');
+        map.getPane('pane_QPV2024Bande300m_3').style.zIndex = 403;
+        map.getPane('pane_QPV2024Bande300m_3').style['mix-blend-mode'] = 'normal';
+        var layer_QPV2024Bande300m_3 = new L.geoJson(json_QPV2024Bande300m_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_QPV2024Bande300m_3',
+            layerName: 'layer_QPV2024Bande300m_3',
+            pane: 'pane_QPV2024Bande300m_3',
+            onEachFeature: pop_QPV2024Bande300m_3,
+            style: style_QPV2024Bande300m_3_0,
+        });
+        bounds_group.addLayer(layer_QPV2024Bande300m_3);
+        map.addLayer(layer_QPV2024Bande300m_3);
+        function pop_Indicateurscroisdloignementgographiqueetdepositionsociale_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nom du lycée ou du collège</th>\
+                        <td class="visible-with-data" id="Nom lycee/">' + (feature.properties['Nom lycee/'] !== null ? autolinker.link(feature.properties['Nom lycee/'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Catégorie du collège</th>\
+                        <td class="visible-with-data" id="Indic Coll">' + (feature.properties['Indic Coll'] !== null ? autolinker.link(feature.properties['Indic Coll'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Catégorie du lycée</th>\
+                        <td class="visible-with-data" id="Indic Lyc">' + (feature.properties['Indic Lyc'] !== null ? autolinker.link(feature.properties['Indic Lyc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Situation relative à un QPV</th>\
+                        <td class="visible-with-data" id="QPV">' + (feature.properties['QPV'] !== null ? autolinker.link(feature.properties['QPV'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Education prioritaire</th>\
+                        <td class="visible-with-data" id="REP">' + (feature.properties['REP'] !== null ? autolinker.link(feature.properties['REP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Dispositif d\'égalité des chances</th>\
+                        <td class="visible-with-data" id="Dispositif">' + (feature.properties['Dispositif'] !== null ? autolinker.link(feature.properties['Dispositif'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Disp_Port'] !== null ? autolinker.link(feature.properties['Disp_Port'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IPS du lycée</th>\
+                        <td class="visible-with-data" id="IPS_lyc">' + (feature.properties['IPS_lyc'] !== null ? autolinker.link(feature.properties['IPS_lyc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IPS du collège</th>\
+                        <td class="visible-with-data" id="IPS_Colleg">' + (feature.properties['IPS_Colleg'] !== null ? autolinker.link(feature.properties['IPS_Colleg'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['IPS_NA'] !== null ? autolinker.link(feature.properties['IPS_NA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['IPS_Fr'] !== null ? autolinker.link(feature.properties['IPS_Fr'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Indice d\'éloignement du lycée</th>\
+                        <td class="visible-with-data" id="IEL_lyc">' + (feature.properties['IEL_lyc'] !== null ? autolinker.link(feature.properties['IEL_lyc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Indice d\'éloignement du collège</th>\
+                        <td class="visible-with-data" id="IEG_Colleg">' + (feature.properties['IEG_Colleg'] !== null ? autolinker.link(feature.properties['IEG_Colleg'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['IEL_NA'] !== null ? autolinker.link(feature.properties['IEL_NA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['IEL_FR'] !== null ? autolinker.link(feature.properties['IEL_FR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nombre d\'heure d\'enseignement par élève</th>\
+                        <td class="visible-with-data" id="H/E">' + (feature.properties['H/E'] !== null ? autolinker.link(feature.properties['H/E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Taux de réussite bac GT</th>\
+                        <td class="visible-with-data" id="R_BacGT">' + (feature.properties['R_BacGT'] !== null ? autolinker.link(feature.properties['R_BacGT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Taux de réussite bac Pro</th>\
+                        <td class="visible-with-data" id="R_BacPro">' + (feature.properties['R_BacPro'] !== null ? autolinker.link(feature.properties['R_BacPro'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Taux de réussite au brevet</th>\
+                        <td class="visible-with-data" id="R_DNB">' + (feature.properties['R_DNB'] !== null ? autolinker.link(feature.properties['R_DNB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+        function style_Indicateurscroisdloignementgographiqueetdepositionsociale_4_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(97,31,83,0.47058823529411764)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(203,27,79,0.5490196078431373)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,136,96,0.5254901960784314)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule3_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,245,240,0.8392156862745098)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule4_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 4.4,
+                opacity: 1,
+                color: 'rgba(141,90,153,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule5_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 4.4,
+                opacity: 1,
+                color: 'rgba(194,28,77,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule6_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 4.4,
+                opacity: 1,
+                color: 'rgba(253,191,111,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule7_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 4.4,
+                opacity: 1,
+                color: 'rgba(255,245,240,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 4.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule8_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Indicateurscroisdloignementgographiqueetdepositionsociale_4rule9_eval_expression(context)) {
+                  return {
+                pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,182,54,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4');
+        map.getPane('pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4').style.zIndex = 404;
+        map.getPane('pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4').style['mix-blend-mode'] = 'normal';
+        var layer_Indicateurscroisdloignementgographiqueetdepositionsociale_4 = new L.geoJson(json_Indicateurscroisdloignementgographiqueetdepositionsociale_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+            layerName: 'layer_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+            pane: 'pane_Indicateurscroisdloignementgographiqueetdepositionsociale_4',
+            onEachFeature: pop_Indicateurscroisdloignementgographiqueetdepositionsociale_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Indicateurscroisdloignementgographiqueetdepositionsociale_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Indicateurscroisdloignementgographiqueetdepositionsociale_4);
+        map.addLayer(layer_Indicateurscroisdloignementgographiqueetdepositionsociale_4);
+        function pop_SiegeBSA_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Porteur</th>\
+                        <td class="visible-with-data" id="Porteur">' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Actions à destination des lycéens</strong><br />' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE2'] !== null ? '<img src="images/' + String(feature.properties['USE2']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeBSA_5_0() {
+            return {
+                pane: 'pane_SiegeBSA_5',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeBSA_5.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeBSA_5');
+        map.getPane('pane_SiegeBSA_5').style.zIndex = 405;
+        map.getPane('pane_SiegeBSA_5').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeBSA_5 = new L.geoJson(json_SiegeBSA_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeBSA_5',
+            layerName: 'layer_SiegeBSA_5',
+            pane: 'pane_SiegeBSA_5',
+            onEachFeature: pop_SiegeBSA_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeBSA_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeBSA_5);
+        map.addLayer(layer_SiegeBSA_5);
+        function pop_SiegeUBM_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Porteur</th>\
+                        <td>' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Actions à destination des lycéens</strong><br />' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE2'] !== null ? '<img src="images/' + String(feature.properties['USE2']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeUBM_6_0() {
+            return {
+                pane: 'pane_SiegeUBM_6',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeUBM_6.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeUBM_6');
+        map.getPane('pane_SiegeUBM_6').style.zIndex = 406;
+        map.getPane('pane_SiegeUBM_6').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeUBM_6 = new L.geoJson(json_SiegeUBM_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeUBM_6',
+            layerName: 'layer_SiegeUBM_6',
+            pane: 'pane_SiegeUBM_6',
+            onEachFeature: pop_SiegeUBM_6,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeUBM_6_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeUBM_6);
+        map.addLayer(layer_SiegeUBM_6);
+        function pop_CampusUB_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Etablissement</th>\
+                        <td class="visible-with-data" id="Etablissem">' + (feature.properties['Etablissem'] !== null ? autolinker.link(feature.properties['Etablissem'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Campus/site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_CampusUB_7_0() {
+            return {
+                pane: 'pane_CampusUB_7',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/CampusUB_7.svg',
+            iconSize: [22.799999999999997, 22.799999999999997]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CampusUB_7');
+        map.getPane('pane_CampusUB_7').style.zIndex = 407;
+        map.getPane('pane_CampusUB_7').style['mix-blend-mode'] = 'normal';
+        var layer_CampusUB_7 = new L.geoJson(json_CampusUB_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CampusUB_7',
+            layerName: 'layer_CampusUB_7',
+            pane: 'pane_CampusUB_7',
+            onEachFeature: pop_CampusUB_7,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_CampusUB_7_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CampusUB_7);
+        map.addLayer(layer_CampusUB_7);
+        function pop_SiegeUB_8(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Porteur</th>\
+                        <td class="visible-with-data" id="Porteur">' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Plan d\'action à destination du 2nd degré</strong><br />' + (feature.properties['Plan actio'] !== null ? autolinker.link(feature.properties['Plan actio'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['l2'] !== null ? autolinker.link(feature.properties['l2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE'] !== null ? '<img src="images/' + String(feature.properties['USE']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeUB_8_0() {
+            return {
+                pane: 'pane_SiegeUB_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeUB_8.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeUB_8');
+        map.getPane('pane_SiegeUB_8').style.zIndex = 408;
+        map.getPane('pane_SiegeUB_8').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeUB_8 = new L.geoJson(json_SiegeUB_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeUB_8',
+            layerName: 'layer_SiegeUB_8',
+            pane: 'pane_SiegeUB_8',
+            onEachFeature: pop_SiegeUB_8,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeUB_8_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeUB_8);
+        map.addLayer(layer_SiegeUB_8);
+        function pop_CampusUPPA_9(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Etablissement</th>\
+                        <td class="visible-with-data" id="Etablissem">' + (feature.properties['Etablissem'] !== null ? autolinker.link(feature.properties['Etablissem'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_CampusUPPA_9_0() {
+            return {
+                pane: 'pane_CampusUPPA_9',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/CampusUPPA_9.svg',
+            iconSize: [22.799999999999997, 22.799999999999997]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CampusUPPA_9');
+        map.getPane('pane_CampusUPPA_9').style.zIndex = 409;
+        map.getPane('pane_CampusUPPA_9').style['mix-blend-mode'] = 'normal';
+        var layer_CampusUPPA_9 = new L.geoJson(json_CampusUPPA_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CampusUPPA_9',
+            layerName: 'layer_CampusUPPA_9',
+            pane: 'pane_CampusUPPA_9',
+            onEachFeature: pop_CampusUPPA_9,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_CampusUPPA_9_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CampusUPPA_9);
+        map.addLayer(layer_CampusUPPA_9);
+        function pop_SiegeUPPA_10(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Porteur</th>\
+                        <td class="visible-with-data" id="Porteur">' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Actions à destination des lycéens</strong><br />' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE2'] !== null ? '<img src="images/' + String(feature.properties['USE2']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeUPPA_10_0() {
+            return {
+                pane: 'pane_SiegeUPPA_10',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeUPPA_10.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeUPPA_10');
+        map.getPane('pane_SiegeUPPA_10').style.zIndex = 410;
+        map.getPane('pane_SiegeUPPA_10').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeUPPA_10 = new L.geoJson(json_SiegeUPPA_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeUPPA_10',
+            layerName: 'layer_SiegeUPPA_10',
+            pane: 'pane_SiegeUPPA_10',
+            onEachFeature: pop_SiegeUPPA_10,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeUPPA_10_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeUPPA_10);
+        map.addLayer(layer_SiegeUPPA_10);
+        function pop_SiegeSciencesPoBdx_11(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Porteur</th>\
+                        <td class="visible-with-data" id="Porteur">' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Actions à destination des lycéens</strong><br />' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE2'] !== null ? '<img src="images/' + String(feature.properties['USE2']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeSciencesPoBdx_11_0() {
+            return {
+                pane: 'pane_SiegeSciencesPoBdx_11',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeSciencesPoBdx_11.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeSciencesPoBdx_11');
+        map.getPane('pane_SiegeSciencesPoBdx_11').style.zIndex = 411;
+        map.getPane('pane_SiegeSciencesPoBdx_11').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeSciencesPoBdx_11 = new L.geoJson(json_SiegeSciencesPoBdx_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeSciencesPoBdx_11',
+            layerName: 'layer_SiegeSciencesPoBdx_11',
+            pane: 'pane_SiegeSciencesPoBdx_11',
+            onEachFeature: pop_SiegeSciencesPoBdx_11,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeSciencesPoBdx_11_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeSciencesPoBdx_11);
+        map.addLayer(layer_SiegeSciencesPoBdx_11);
+        function pop_CampusUniLim_12(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Etablissement</th>\
+                        <td class="visible-with-data" id="Etablissem">' + (feature.properties['Etablissem'] !== null ? autolinker.link(feature.properties['Etablissem'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_CampusUniLim_12_0() {
+            return {
+                pane: 'pane_CampusUniLim_12',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/CampusUniLim_12.svg',
+            iconSize: [22.799999999999997, 22.799999999999997]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CampusUniLim_12');
+        map.getPane('pane_CampusUniLim_12').style.zIndex = 412;
+        map.getPane('pane_CampusUniLim_12').style['mix-blend-mode'] = 'normal';
+        var layer_CampusUniLim_12 = new L.geoJson(json_CampusUniLim_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CampusUniLim_12',
+            layerName: 'layer_CampusUniLim_12',
+            pane: 'pane_CampusUniLim_12',
+            onEachFeature: pop_CampusUniLim_12,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_CampusUniLim_12_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CampusUniLim_12);
+        map.addLayer(layer_CampusUniLim_12);
+        function pop_SiegeUniLim_13(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Actions à destination des lycéens</th>\
+                        <td class="visible-with-data" id="Porteur">' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Actions à destination des lycéens</strong><br />' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE2'] !== null ? '<img src="images/' + String(feature.properties['USE2']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeUniLim_13_0() {
+            return {
+                pane: 'pane_SiegeUniLim_13',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeUniLim_13.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeUniLim_13');
+        map.getPane('pane_SiegeUniLim_13').style.zIndex = 413;
+        map.getPane('pane_SiegeUniLim_13').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeUniLim_13 = new L.geoJson(json_SiegeUniLim_13, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeUniLim_13',
+            layerName: 'layer_SiegeUniLim_13',
+            pane: 'pane_SiegeUniLim_13',
+            onEachFeature: pop_SiegeUniLim_13,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeUniLim_13_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeUniLim_13);
+        map.addLayer(layer_SiegeUniLim_13);
+        function pop_SiegeLRU_14(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Porteur</th>\
+                        <td>' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Actions à destination des lycéens</strong><br />' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE2'] !== null ? '<img src="images/' + String(feature.properties['USE2']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeLRU_14_0() {
+            return {
+                pane: 'pane_SiegeLRU_14',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeLRU_14.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeLRU_14');
+        map.getPane('pane_SiegeLRU_14').style.zIndex = 414;
+        map.getPane('pane_SiegeLRU_14').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeLRU_14 = new L.geoJson(json_SiegeLRU_14, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeLRU_14',
+            layerName: 'layer_SiegeLRU_14',
+            pane: 'pane_SiegeLRU_14',
+            onEachFeature: pop_SiegeLRU_14,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeLRU_14_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeLRU_14);
+        map.addLayer(layer_SiegeLRU_14);
+        function pop_SiegeINP_15(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Campus/Site</th>\
+                        <td class="visible-with-data" id="Site_Campu">' + (feature.properties['Site_Campu'] !== null ? autolinker.link(feature.properties['Site_Campu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Porteur</th>\
+                        <td class="visible-with-data" id="Porteur">' + (feature.properties['Porteur'] !== null ? autolinker.link(feature.properties['Porteur'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Actions à destination des lycéens</strong><br />' + (feature.properties['l1'] !== null ? autolinker.link(feature.properties['l1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['lien'] !== null ? autolinker.link(feature.properties['lien'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">contact</th>\
+                        <td class="visible-with-data" id="contact">' + (feature.properties['contact'] !== null ? autolinker.link(feature.properties['contact'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USE2'] !== null ? '<img src="images/' + String(feature.properties['USE2']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_SiegeINP_15_0() {
+            return {
+                pane: 'pane_SiegeINP_15',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/SiegeINP_15.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_SiegeINP_15');
+        map.getPane('pane_SiegeINP_15').style.zIndex = 415;
+        map.getPane('pane_SiegeINP_15').style['mix-blend-mode'] = 'normal';
+        var layer_SiegeINP_15 = new L.geoJson(json_SiegeINP_15, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_SiegeINP_15',
+            layerName: 'layer_SiegeINP_15',
+            pane: 'pane_SiegeINP_15',
+            onEachFeature: pop_SiegeINP_15,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_SiegeINP_15_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SiegeINP_15);
+        map.addLayer(layer_SiegeINP_15);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Les dispositifs portés par les établissements signataires de la convention de coordination territoriale Nouvelle-Aquitaine dans les collèges et les lycées, favorisant la diversité sociale et territoriale des étudiants dans l\'accès à l\'enseignement supérieur</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'topright'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Action 1 - Diversification des publics étudiants - CCT <br />MAOIP et CT2E, Université de Bordeaux<br />';
+            };
+            abstract.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/SiegeINP_15.png" /> Siege INP': layer_SiegeINP_15,'<img src="legend/SiegeLRU_14.png" /> Siege LRU': layer_SiegeLRU_14,'<img src="legend/SiegeUniLim_13.png" /> Siege UniLim': layer_SiegeUniLim_13,'<img src="legend/CampusUniLim_12.png" /> Campus UniLim': layer_CampusUniLim_12,'<img src="legend/SiegeSciencesPoBdx_11.png" /> Siege Sciences Po Bdx': layer_SiegeSciencesPoBdx_11,'<img src="legend/SiegeUPPA_10.png" /> Siege UPPA': layer_SiegeUPPA_10,'<img src="legend/CampusUPPA_9.png" /> Campus UPPA': layer_CampusUPPA_9,'<img src="legend/SiegeUB_8.png" /> Siege UB': layer_SiegeUB_8,'<img src="legend/CampusUB_7.png" /> Campus UB': layer_CampusUB_7,'<img src="legend/SiegeUBM_6.png" /> Siege UBM': layer_SiegeUBM_6,'<img src="legend/SiegeBSA_5.png" /> Siege BSA': layer_SiegeBSA_5,'Indicateurs croisé d\'éloignement géographique et de position sociale<br /><table><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Lycéesdéfavorisésetéloignés0.png" /></td><td>Lycées défavorisés et éloignés</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Lycéesdéfavorisésetproches1.png" /></td><td>Lycées défavorisés et proches</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Lycéesfavorisésetéloignés2.png" /></td><td>Lycées favorisés et éloignés</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Lycéesfavorisésetproches3.png" /></td><td>Lycées favorisés et proches</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Collègesdéfavorisésetéloignés4.png" /></td><td>Collèges défavorisés et éloignés</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Collègesdéfavorisésetproches5.png" /></td><td>Collèges défavorisés et proches</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Collègesfavorisésetéloignés6.png" /></td><td>Collèges favorisés et éloignés</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_Collègesfavorisésetproches7.png" /></td><td>Collèges favorisés et proches</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_MFR8.png" /></td><td>MFR</td></tr><tr><td style="text-align: center;"><img src="legend/Indicateurscroisdloignementgographiqueetdepositionsociale_4_CFA9.png" /></td><td>CFA</td></tr></table>': layer_Indicateurscroisdloignementgographiqueetdepositionsociale_4,'<img src="legend/QPV2024Bande300m_3.png" /> QPV 2024 - Bande 300m': layer_QPV2024Bande300m_3,'<img src="legend/QPV2024_2.png" /> QPV 2024': layer_QPV2024_2,'<img src="legend/Limitesadministrativesdpartementales_1.png" /> Limites administratives départementales': layer_Limitesadministrativesdpartementales_1,"Fond de carte": layer_Fonddecarte_0,}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_Indicateurscroisdloignementgographiqueetdepositionsociale_4,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Nom lycee/'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Dispositif": "int","BSA": "str","IEP Bdx": "str","INP": "str","LRU": "str","UB": "str","UBM": "str","UL": "str","UPPA": "str","Indic Lyc": "str","Indic Coll": "str","ACCES": "str","CODA": "str","Cordees": "str","JPPJV": "str","PassEnSup": "str","Nature": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Dispositif = document.createElement("div");
+            div_Dispositif.id = "div_Dispositif";
+            div_Dispositif.className = "slider";
+            document.getElementById("menu").appendChild(div_Dispositif);
+            var lab_Dispositif = document.createElement('div');
+            lab_Dispositif.innerHTML  = 'Dispositif: <span id="val_Dispositif"></span>';
+            lab_Dispositif.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Dispositif);
+            var reset_Dispositif = document.createElement('div');
+            reset_Dispositif.innerHTML = 'clear filter';
+            reset_Dispositif.className = 'filterlabel';
+            lab_Dispositif.className = 'filterlabel';
+            reset_Dispositif.onclick = function() {
+                sel_Dispositif.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Dispositif);
+            var sel_Dispositif = document.getElementById('div_Dispositif');
+            noUiSlider.create(sel_Dispositif, {
+                connect: true,
+                start: [0, 4],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 4
+                }
+            });
+            sel_Dispositif.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Dispositif = document.getElementById('val_Dispositif');
+            val_Dispositif.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_BSA = document.createElement('div');
+            div_BSA.id = "div_BSA";
+            div_BSA.className= "filterselect";
+            document.getElementById("menu").appendChild(div_BSA);
+            sel_BSA = document.createElement('select');
+            sel_BSA.multiple = true;
+            sel_BSA.size = 2;
+            sel_BSA.id = "sel_BSA";
+            var BSA_options_str = "<option value='' unselected></option>";
+            sel_BSA.onchange = function(){filterFunc()};
+            BSA_options_str  += '<option value="Avec BSA">Avec BSA</option>';
+            BSA_options_str  += '<option value="Sans BSA">Sans BSA</option>';
+            sel_BSA.innerHTML = BSA_options_str;
+            div_BSA.appendChild(sel_BSA);
+            var lab_BSA = document.createElement('div');
+            lab_BSA.innerHTML = 'BSA';
+            lab_BSA.className = 'filterlabel';
+            div_BSA.appendChild(lab_BSA);
+            var reset_BSA = document.createElement('div');
+            reset_BSA.innerHTML = 'clear filter';
+            reset_BSA.className = 'filterlabel';
+            reset_BSA.onclick = function() {
+                var options = document.getElementById("sel_BSA").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_BSA.appendChild(reset_BSA);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_IEPBdx = document.createElement('div');
+            div_IEPBdx.id = "div_IEPBdx";
+            div_IEPBdx.className= "filterselect";
+            document.getElementById("menu").appendChild(div_IEPBdx);
+            sel_IEPBdx = document.createElement('select');
+            sel_IEPBdx.multiple = true;
+            sel_IEPBdx.size = 2;
+            sel_IEPBdx.id = "sel_IEPBdx";
+            var IEPBdx_options_str = "<option value='' unselected></option>";
+            sel_IEPBdx.onchange = function(){filterFunc()};
+            IEPBdx_options_str  += '<option value="Avec SPB">Avec SPB</option>';
+            IEPBdx_options_str  += '<option value="Sans SPB">Sans SPB</option>';
+            sel_IEPBdx.innerHTML = IEPBdx_options_str;
+            div_IEPBdx.appendChild(sel_IEPBdx);
+            var lab_IEPBdx = document.createElement('div');
+            lab_IEPBdx.innerHTML = 'IEP Bdx';
+            lab_IEPBdx.className = 'filterlabel';
+            div_IEPBdx.appendChild(lab_IEPBdx);
+            var reset_IEPBdx = document.createElement('div');
+            reset_IEPBdx.innerHTML = 'clear filter';
+            reset_IEPBdx.className = 'filterlabel';
+            reset_IEPBdx.onclick = function() {
+                var options = document.getElementById("sel_IEPBdx").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_IEPBdx.appendChild(reset_IEPBdx);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_INP = document.createElement('div');
+            div_INP.id = "div_INP";
+            div_INP.className= "filterselect";
+            document.getElementById("menu").appendChild(div_INP);
+            sel_INP = document.createElement('select');
+            sel_INP.multiple = true;
+            sel_INP.size = 2;
+            sel_INP.id = "sel_INP";
+            var INP_options_str = "<option value='' unselected></option>";
+            sel_INP.onchange = function(){filterFunc()};
+            INP_options_str  += '<option value="Avec BX INP">Avec BX INP</option>';
+            INP_options_str  += '<option value="Sans BX INP">Sans BX INP</option>';
+            sel_INP.innerHTML = INP_options_str;
+            div_INP.appendChild(sel_INP);
+            var lab_INP = document.createElement('div');
+            lab_INP.innerHTML = 'INP';
+            lab_INP.className = 'filterlabel';
+            div_INP.appendChild(lab_INP);
+            var reset_INP = document.createElement('div');
+            reset_INP.innerHTML = 'clear filter';
+            reset_INP.className = 'filterlabel';
+            reset_INP.onclick = function() {
+                var options = document.getElementById("sel_INP").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_INP.appendChild(reset_INP);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_LRU = document.createElement('div');
+            div_LRU.id = "div_LRU";
+            div_LRU.className= "filterselect";
+            document.getElementById("menu").appendChild(div_LRU);
+            sel_LRU = document.createElement('select');
+            sel_LRU.multiple = true;
+            sel_LRU.size = 2;
+            sel_LRU.id = "sel_LRU";
+            var LRU_options_str = "<option value='' unselected></option>";
+            sel_LRU.onchange = function(){filterFunc()};
+            LRU_options_str  += '<option value="Avec LRU">Avec LRU</option>';
+            LRU_options_str  += '<option value="Sans LRU">Sans LRU</option>';
+            sel_LRU.innerHTML = LRU_options_str;
+            div_LRU.appendChild(sel_LRU);
+            var lab_LRU = document.createElement('div');
+            lab_LRU.innerHTML = 'LRU';
+            lab_LRU.className = 'filterlabel';
+            div_LRU.appendChild(lab_LRU);
+            var reset_LRU = document.createElement('div');
+            reset_LRU.innerHTML = 'clear filter';
+            reset_LRU.className = 'filterlabel';
+            reset_LRU.onclick = function() {
+                var options = document.getElementById("sel_LRU").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_LRU.appendChild(reset_LRU);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_UB = document.createElement('div');
+            div_UB.id = "div_UB";
+            div_UB.className= "filterselect";
+            document.getElementById("menu").appendChild(div_UB);
+            sel_UB = document.createElement('select');
+            sel_UB.multiple = true;
+            sel_UB.size = 2;
+            sel_UB.id = "sel_UB";
+            var UB_options_str = "<option value='' unselected></option>";
+            sel_UB.onchange = function(){filterFunc()};
+            UB_options_str  += '<option value="Avec UB">Avec UB</option>';
+            UB_options_str  += '<option value="Sans UB">Sans UB</option>';
+            sel_UB.innerHTML = UB_options_str;
+            div_UB.appendChild(sel_UB);
+            var lab_UB = document.createElement('div');
+            lab_UB.innerHTML = 'UB';
+            lab_UB.className = 'filterlabel';
+            div_UB.appendChild(lab_UB);
+            var reset_UB = document.createElement('div');
+            reset_UB.innerHTML = 'clear filter';
+            reset_UB.className = 'filterlabel';
+            reset_UB.onclick = function() {
+                var options = document.getElementById("sel_UB").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_UB.appendChild(reset_UB);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_UBM = document.createElement('div');
+            div_UBM.id = "div_UBM";
+            div_UBM.className= "filterselect";
+            document.getElementById("menu").appendChild(div_UBM);
+            sel_UBM = document.createElement('select');
+            sel_UBM.multiple = true;
+            sel_UBM.size = 2;
+            sel_UBM.id = "sel_UBM";
+            var UBM_options_str = "<option value='' unselected></option>";
+            sel_UBM.onchange = function(){filterFunc()};
+            UBM_options_str  += '<option value="Avec UBM">Avec UBM</option>';
+            UBM_options_str  += '<option value="Sans UBM">Sans UBM</option>';
+            sel_UBM.innerHTML = UBM_options_str;
+            div_UBM.appendChild(sel_UBM);
+            var lab_UBM = document.createElement('div');
+            lab_UBM.innerHTML = 'UBM';
+            lab_UBM.className = 'filterlabel';
+            div_UBM.appendChild(lab_UBM);
+            var reset_UBM = document.createElement('div');
+            reset_UBM.innerHTML = 'clear filter';
+            reset_UBM.className = 'filterlabel';
+            reset_UBM.onclick = function() {
+                var options = document.getElementById("sel_UBM").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_UBM.appendChild(reset_UBM);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_UL = document.createElement('div');
+            div_UL.id = "div_UL";
+            div_UL.className= "filterselect";
+            document.getElementById("menu").appendChild(div_UL);
+            sel_UL = document.createElement('select');
+            sel_UL.multiple = true;
+            sel_UL.size = 2;
+            sel_UL.id = "sel_UL";
+            var UL_options_str = "<option value='' unselected></option>";
+            sel_UL.onchange = function(){filterFunc()};
+            UL_options_str  += '<option value="Avec UniLim">Avec UniLim</option>';
+            UL_options_str  += '<option value="Sans UniLim">Sans UniLim</option>';
+            sel_UL.innerHTML = UL_options_str;
+            div_UL.appendChild(sel_UL);
+            var lab_UL = document.createElement('div');
+            lab_UL.innerHTML = 'UL';
+            lab_UL.className = 'filterlabel';
+            div_UL.appendChild(lab_UL);
+            var reset_UL = document.createElement('div');
+            reset_UL.innerHTML = 'clear filter';
+            reset_UL.className = 'filterlabel';
+            reset_UL.onclick = function() {
+                var options = document.getElementById("sel_UL").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_UL.appendChild(reset_UL);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_UPPA = document.createElement('div');
+            div_UPPA.id = "div_UPPA";
+            div_UPPA.className= "filterselect";
+            document.getElementById("menu").appendChild(div_UPPA);
+            sel_UPPA = document.createElement('select');
+            sel_UPPA.multiple = true;
+            sel_UPPA.size = 2;
+            sel_UPPA.id = "sel_UPPA";
+            var UPPA_options_str = "<option value='' unselected></option>";
+            sel_UPPA.onchange = function(){filterFunc()};
+            UPPA_options_str  += '<option value="Avec UPPA">Avec UPPA</option>';
+            UPPA_options_str  += '<option value="Sans UPPA">Sans UPPA</option>';
+            sel_UPPA.innerHTML = UPPA_options_str;
+            div_UPPA.appendChild(sel_UPPA);
+            var lab_UPPA = document.createElement('div');
+            lab_UPPA.innerHTML = 'UPPA';
+            lab_UPPA.className = 'filterlabel';
+            div_UPPA.appendChild(lab_UPPA);
+            var reset_UPPA = document.createElement('div');
+            reset_UPPA.innerHTML = 'clear filter';
+            reset_UPPA.className = 'filterlabel';
+            reset_UPPA.onclick = function() {
+                var options = document.getElementById("sel_UPPA").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_UPPA.appendChild(reset_UPPA);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_IndicLyc = document.createElement('div');
+            div_IndicLyc.id = "div_IndicLyc";
+            div_IndicLyc.className= "filterselect";
+            document.getElementById("menu").appendChild(div_IndicLyc);
+            sel_IndicLyc = document.createElement('select');
+            sel_IndicLyc.multiple = true;
+            sel_IndicLyc.size = 5;
+            sel_IndicLyc.id = "sel_IndicLyc";
+            var IndicLyc_options_str = "<option value='' unselected></option>";
+            sel_IndicLyc.onchange = function(){filterFunc()};
+            IndicLyc_options_str  += '<option value="Lycees defavorises & eloignes">Lycees defavorises & eloignes</option>';
+            IndicLyc_options_str  += '<option value="Lycees defavorises & proches">Lycees defavorises & proches</option>';
+            IndicLyc_options_str  += '<option value="Lycees favorises & eloignes">Lycees favorises & eloignes</option>';
+            IndicLyc_options_str  += '<option value="Lycees favorises & proches">Lycees favorises & proches</option>';
+            IndicLyc_options_str  += '<option value="Sans valeur">Sans valeur</option>';
+            sel_IndicLyc.innerHTML = IndicLyc_options_str;
+            div_IndicLyc.appendChild(sel_IndicLyc);
+            var lab_IndicLyc = document.createElement('div');
+            lab_IndicLyc.innerHTML = 'Indic Lyc';
+            lab_IndicLyc.className = 'filterlabel';
+            div_IndicLyc.appendChild(lab_IndicLyc);
+            var reset_IndicLyc = document.createElement('div');
+            reset_IndicLyc.innerHTML = 'clear filter';
+            reset_IndicLyc.className = 'filterlabel';
+            reset_IndicLyc.onclick = function() {
+                var options = document.getElementById("sel_IndicLyc").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_IndicLyc.appendChild(reset_IndicLyc);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_IndicColl = document.createElement('div');
+            div_IndicColl.id = "div_IndicColl";
+            div_IndicColl.className= "filterselect";
+            document.getElementById("menu").appendChild(div_IndicColl);
+            sel_IndicColl = document.createElement('select');
+            sel_IndicColl.multiple = true;
+            sel_IndicColl.size = 5;
+            sel_IndicColl.id = "sel_IndicColl";
+            var IndicColl_options_str = "<option value='' unselected></option>";
+            sel_IndicColl.onchange = function(){filterFunc()};
+            IndicColl_options_str  += '<option value="Defavorise Eloigne">Defavorise Eloigne</option>';
+            IndicColl_options_str  += '<option value="Defavorise Proche">Defavorise Proche</option>';
+            IndicColl_options_str  += '<option value="Favorise Eloigne">Favorise Eloigne</option>';
+            IndicColl_options_str  += '<option value="Favorise Proche">Favorise Proche</option>';
+            IndicColl_options_str  += '<option value="Sans valeur">Sans valeur</option>';
+            sel_IndicColl.innerHTML = IndicColl_options_str;
+            div_IndicColl.appendChild(sel_IndicColl);
+            var lab_IndicColl = document.createElement('div');
+            lab_IndicColl.innerHTML = 'Indic Coll';
+            lab_IndicColl.className = 'filterlabel';
+            div_IndicColl.appendChild(lab_IndicColl);
+            var reset_IndicColl = document.createElement('div');
+            reset_IndicColl.innerHTML = 'clear filter';
+            reset_IndicColl.className = 'filterlabel';
+            reset_IndicColl.onclick = function() {
+                var options = document.getElementById("sel_IndicColl").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_IndicColl.appendChild(reset_IndicColl);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_ACCES = document.createElement('div');
+            div_ACCES.id = "div_ACCES";
+            div_ACCES.className= "filterselect";
+            document.getElementById("menu").appendChild(div_ACCES);
+            sel_ACCES = document.createElement('select');
+            sel_ACCES.multiple = true;
+            sel_ACCES.size = 2;
+            sel_ACCES.id = "sel_ACCES";
+            var ACCES_options_str = "<option value='' unselected></option>";
+            sel_ACCES.onchange = function(){filterFunc()};
+            ACCES_options_str  += '<option value="Avec ACCES">Avec ACCES</option>';
+            ACCES_options_str  += '<option value="Sans ACCES">Sans ACCES</option>';
+            sel_ACCES.innerHTML = ACCES_options_str;
+            div_ACCES.appendChild(sel_ACCES);
+            var lab_ACCES = document.createElement('div');
+            lab_ACCES.innerHTML = 'ACCES';
+            lab_ACCES.className = 'filterlabel';
+            div_ACCES.appendChild(lab_ACCES);
+            var reset_ACCES = document.createElement('div');
+            reset_ACCES.innerHTML = 'clear filter';
+            reset_ACCES.className = 'filterlabel';
+            reset_ACCES.onclick = function() {
+                var options = document.getElementById("sel_ACCES").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_ACCES.appendChild(reset_ACCES);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_CODA = document.createElement('div');
+            div_CODA.id = "div_CODA";
+            div_CODA.className= "filterselect";
+            document.getElementById("menu").appendChild(div_CODA);
+            sel_CODA = document.createElement('select');
+            sel_CODA.multiple = true;
+            sel_CODA.size = 2;
+            sel_CODA.id = "sel_CODA";
+            var CODA_options_str = "<option value='' unselected></option>";
+            sel_CODA.onchange = function(){filterFunc()};
+            CODA_options_str  += '<option value="Avec CODA">Avec CODA</option>';
+            CODA_options_str  += '<option value="Sans CODA">Sans CODA</option>';
+            sel_CODA.innerHTML = CODA_options_str;
+            div_CODA.appendChild(sel_CODA);
+            var lab_CODA = document.createElement('div');
+            lab_CODA.innerHTML = 'CODA';
+            lab_CODA.className = 'filterlabel';
+            div_CODA.appendChild(lab_CODA);
+            var reset_CODA = document.createElement('div');
+            reset_CODA.innerHTML = 'clear filter';
+            reset_CODA.className = 'filterlabel';
+            reset_CODA.onclick = function() {
+                var options = document.getElementById("sel_CODA").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_CODA.appendChild(reset_CODA);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Cordees = document.createElement('div');
+            div_Cordees.id = "div_Cordees";
+            div_Cordees.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Cordees);
+            sel_Cordees = document.createElement('select');
+            sel_Cordees.multiple = true;
+            sel_Cordees.size = 2;
+            sel_Cordees.id = "sel_Cordees";
+            var Cordees_options_str = "<option value='' unselected></option>";
+            sel_Cordees.onchange = function(){filterFunc()};
+            Cordees_options_str  += '<option value="Avec cordees">Avec cordees</option>';
+            Cordees_options_str  += '<option value="Sans cordees">Sans cordees</option>';
+            sel_Cordees.innerHTML = Cordees_options_str;
+            div_Cordees.appendChild(sel_Cordees);
+            var lab_Cordees = document.createElement('div');
+            lab_Cordees.innerHTML = 'Cordees';
+            lab_Cordees.className = 'filterlabel';
+            div_Cordees.appendChild(lab_Cordees);
+            var reset_Cordees = document.createElement('div');
+            reset_Cordees.innerHTML = 'clear filter';
+            reset_Cordees.className = 'filterlabel';
+            reset_Cordees.onclick = function() {
+                var options = document.getElementById("sel_Cordees").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Cordees.appendChild(reset_Cordees);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_JPPJV = document.createElement('div');
+            div_JPPJV.id = "div_JPPJV";
+            div_JPPJV.className= "filterselect";
+            document.getElementById("menu").appendChild(div_JPPJV);
+            sel_JPPJV = document.createElement('select');
+            sel_JPPJV.multiple = true;
+            sel_JPPJV.size = 2;
+            sel_JPPJV.id = "sel_JPPJV";
+            var JPPJV_options_str = "<option value='' unselected></option>";
+            sel_JPPJV.onchange = function(){filterFunc()};
+            JPPJV_options_str  += '<option value="Avec JPPJV">Avec JPPJV</option>';
+            JPPJV_options_str  += '<option value="Sans JPPJV">Sans JPPJV</option>';
+            sel_JPPJV.innerHTML = JPPJV_options_str;
+            div_JPPJV.appendChild(sel_JPPJV);
+            var lab_JPPJV = document.createElement('div');
+            lab_JPPJV.innerHTML = 'JPPJV';
+            lab_JPPJV.className = 'filterlabel';
+            div_JPPJV.appendChild(lab_JPPJV);
+            var reset_JPPJV = document.createElement('div');
+            reset_JPPJV.innerHTML = 'clear filter';
+            reset_JPPJV.className = 'filterlabel';
+            reset_JPPJV.onclick = function() {
+                var options = document.getElementById("sel_JPPJV").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_JPPJV.appendChild(reset_JPPJV);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_PassEnSup = document.createElement('div');
+            div_PassEnSup.id = "div_PassEnSup";
+            div_PassEnSup.className= "filterselect";
+            document.getElementById("menu").appendChild(div_PassEnSup);
+            sel_PassEnSup = document.createElement('select');
+            sel_PassEnSup.multiple = true;
+            sel_PassEnSup.size = 2;
+            sel_PassEnSup.id = "sel_PassEnSup";
+            var PassEnSup_options_str = "<option value='' unselected></option>";
+            sel_PassEnSup.onchange = function(){filterFunc()};
+            PassEnSup_options_str  += '<option value="Avec PassEnSup">Avec PassEnSup</option>';
+            PassEnSup_options_str  += '<option value="Sans PassEnSup">Sans PassEnSup</option>';
+            sel_PassEnSup.innerHTML = PassEnSup_options_str;
+            div_PassEnSup.appendChild(sel_PassEnSup);
+            var lab_PassEnSup = document.createElement('div');
+            lab_PassEnSup.innerHTML = 'PassEnSup';
+            lab_PassEnSup.className = 'filterlabel';
+            div_PassEnSup.appendChild(lab_PassEnSup);
+            var reset_PassEnSup = document.createElement('div');
+            reset_PassEnSup.innerHTML = 'clear filter';
+            reset_PassEnSup.className = 'filterlabel';
+            reset_PassEnSup.onclick = function() {
+                var options = document.getElementById("sel_PassEnSup").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_PassEnSup.appendChild(reset_PassEnSup);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Nature = document.createElement('div');
+            div_Nature.id = "div_Nature";
+            div_Nature.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Nature);
+            sel_Nature = document.createElement('select');
+            sel_Nature.multiple = true;
+            sel_Nature.size = 4;
+            sel_Nature.id = "sel_Nature";
+            var Nature_options_str = "<option value='' unselected></option>";
+            sel_Nature.onchange = function(){filterFunc()};
+            Nature_options_str  += '<option value="CFA">CFA</option>';
+            Nature_options_str  += '<option value="College">College</option>';
+            Nature_options_str  += '<option value="Lycee">Lycee</option>';
+            Nature_options_str  += '<option value="MFR">MFR</option>';
+            sel_Nature.innerHTML = Nature_options_str;
+            div_Nature.appendChild(sel_Nature);
+            var lab_Nature = document.createElement('div');
+            lab_Nature.innerHTML = 'Nature';
+            lab_Nature.className = 'filterlabel';
+            div_Nature.appendChild(lab_Nature);
+            var reset_Nature = document.createElement('div');
+            reset_Nature.innerHTML = 'clear filter';
+            reset_Nature.className = 'filterlabel';
+            reset_Nature.onclick = function() {
+                var options = document.getElementById("sel_Nature").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Nature.appendChild(reset_Nature);
+        </script>
+    </body>
+</html>
